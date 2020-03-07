@@ -1,3 +1,11 @@
-# COMP397-W2020-Test-Template-v2
+# Game-Dengeon-Operatives
 
-## Test template for COMP397 to be  used with Midterm test
+This a course project for COMP397 - Web Game Programming
+
+<b>Project Team in Alphabetical Order:</b><br>
+Baktash Sana - Programmer<br>
+Julio Carvalho - Software Engineer<br>
+Leonardo de Oliveira - Artist<br>
+MuthuPriya Thirunavukkarasu - Producer<br>
+Sarmad Siddiqi - Game Designer<br>
+Xiao Ming Tang - QA Tester
