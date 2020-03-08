@@ -15,9 +15,16 @@ var Game = (function () {
         { id: "nextButton", src: "./Assets/images/nextButton.png" },
         { id: "backButton", src: "./Assets/images/backButton.png" },
         { id: "ocean", src: "./Assets/images/ocean.gif" },
+        { id: "cloud", src: "./Assets/images/cloud.png" },
+        { id: "island", src: "./Assets/images/island.png" },
         { id: "plane", src: "./Assets/images/plane.png" },
         { id: "arena", src: "./Assets/images/arena.png" },
-        { id: "player", src: "./Assets/images/player.png" }
+        { id: "player", src: "./Assets/images/player.png" },
+        { id: "bulletBlue", src: "./Assets/images/bulletBlue.png" },
+        { id: "laser1", src: "./Assets/audio/laser1.wav" },
+        { id: "explosion06", src: "./Assets/audio/explosion06.wav" },
+        { id: "level1", src: "./Assets/audio/level1.mp3" },
+        { id: "opening", src: "./Assets/audio/opening.mp3" }
     ];
     function Preload() {
         assets = new createjs.LoadQueue(); // asset container

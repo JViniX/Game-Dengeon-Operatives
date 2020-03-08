@@ -4,6 +4,7 @@ module managers
     {
         public static squaredRadiusCheck(object1:objects.GameObject, object2:objects.GameObject):boolean
         {
+            //console.log(object1.name+": "+ object1.x + " - "+ object1.y +" | "+object2.name+": " +object2.x + " - "+ object2.y);
             // squared radius check
             let radii = object1.halfHeight + object2.halfHeight;
 
@@ -12,19 +13,23 @@ module managers
                 if(!object2.isColliding)
                     {
                         console.log("Collision!");
+                        object1.isColliding = true;
                         object2.isColliding = true;
                         return true;
                     }
             }
-            else
-            {
-                object2.isColliding = false;
-            }
+            // else
+            // {
+            //     object2.isColliding = false;
+            // }
             return false;
         }
 
         public static AABBCheck(object1:objects.GameObject, object2:objects.GameObject):boolean
         {
+            //console.log(object1.name+": "+ object1.x + " - "+ object1.y +" | "+object2.name+": " +object2.x + " - "+ object2.y);
+            //console.log("Obj2"+ object2.x + " - "+ object2.y);
+
             let object1Offset = (!object1.isCentered) ? new objects.Vector2(0, 0) : new objects.Vector2(object1.halfWidth, object1.halfHeight);
             let object2Offset = (!object2.isCentered) ? new objects.Vector2(0, 0) : new objects.Vector2(object2.halfWidth, object2.halfHeight);
 
@@ -39,16 +44,17 @@ module managers
             {
                 if(!object2.isColliding)
                 {
-                    console.log("Collision!");
+                    console.log("Collision! - "+ object1.name+" : "+ object1.width + " - "+ object1.height);
+                    object1.isColliding = true;
                     object2.isColliding = true;
                     return true;
                 }
                 
             }
-            else
-            {
-                object2.isColliding = false;
-            }
+            // else
+            // {
+            //     object2.isColliding = false;
+            // }
             return false;
         }
         

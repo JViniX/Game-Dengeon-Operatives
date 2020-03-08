@@ -208,8 +208,5 @@ module objects
             let theYs = lhs.y - rhs.y;
             return new Vector2(theXs, theYs);
         }
-
-
-        
     }
 }

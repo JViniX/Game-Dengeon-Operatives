@@ -27,23 +27,52 @@ var scenes;
         // PUBLIC METHODS
         //initialize and instatiate
         Play.prototype.Start = function () {
+            // create the cloud array
+            this._clouds = new Array(); // empty container
+            // instantiating CLOUD_NUM clouds
+            for (var index = 0; index < 3; index++) {
+                this._clouds.push(new objects.Cloud());
+            }
+            this._bullets = new Array();
             this._arena = new objects.Image(config.Game.ASSETS.getResult("arena"), "arena", 0, 0, false);
             this._player = new objects.Player(config.Game.ASSETS.getResult("player"), "player", 600, 400, true);
-            this._block = new objects.Image();
+            this._block = new objects.Image(config.Game.ASSETS.getResult("placeholder"), "block", 600, 100, true);
             this.Main();
         };
         Play.prototype.Update = function () {
-            if (managers.Collision.AABBCheck(this._block, this._player)) {
-                console.log("Colision");
-            }
+            var _this = this;
+            this._player.Update();
+            managers.Collision.AABBCheck(this._block, this._player);
+            this._bullets.forEach(function (bullet) {
+                bullet.Update();
+                if (bullet.isColliding) {
+                    _this.removeChild(bullet);
+                    var index = _this._bullets.indexOf(bullet);
+                    _this._bullets.splice(index, 0);
+                }
+            });
+            this._clouds.forEach(function (cloud) {
+                cloud.Update();
+            });
         };
         Play.prototype.Main = function () {
             var _this = this;
             this.addChild(this._arena);
             this.addChild(this._player);
             this.addChild(this._block);
+            for (var _i = 0, _a = this._clouds; _i < _a.length; _i++) {
+                var cloud = _a[_i];
+                this.addChild(cloud);
+            }
             window.addEventListener('keydown', function (e) {
-                _this._player.Move(e);
+                if (e.keyCode == 17) // key Ctrl
+                 {
+                    var bullet = new objects.Bullet(config.Game.ASSETS.getResult("bulletBlue"), "bullet" + _this._bullets.length, _this._player);
+                    _this.addChild(bullet);
+                    _this._bullets.push(bullet);
+                }
+                else
+                    _this._player.Move(e);
             });
         };
         return Play;
