@@ -86,7 +86,6 @@ var objects;
                 var aux = this.height;
                 this.height = this.width;
                 this.width = aux;
-                //console.log("Size! - "+ this.name+" : W"+ this.width + " - H"+ this.height);
             }
         };
         Player.prototype.Start = function () {

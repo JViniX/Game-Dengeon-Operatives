@@ -6,6 +6,7 @@ module scenes
         private _welcomeLabel: objects.Label;
         private _startButton: objects.Button;
 
+     
 
         // PUBLIC PROPERTIES
 
@@ -22,6 +23,8 @@ module scenes
         // PUBLIC METHODS
         public Start(): void 
         {
+            
+
              //instantiate a new Text object
             this._welcomeLabel = new objects.Label("Welcome to Dengeon Operatives", "40px", "Consolas", "#000000", 1224/2, 300, true);
             // buttons

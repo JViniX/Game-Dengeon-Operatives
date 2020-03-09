@@ -43,8 +43,10 @@ var objects;
         }
         // PRIVATE METHODS
         Bullet.prototype._checkBounds = function () {
-            if ((this.y >= config.Game.SCREEN_HEIGHT + this.height) ||
-                (this.x >= config.Game.SCREEN_WIDTH + this.width)) {
+            if ((this.position.y >= config.Game.SCREEN_HEIGHT + this.height) ||
+                (this.position.y <= 0) ||
+                (this.position.x >= config.Game.SCREEN_WIDTH + this.width) ||
+                (this.position.x <= 0)) {
                 this.isColliding = true;
             }
         };
@@ -66,7 +68,8 @@ var objects;
         };
         // PUBLIC METHODS
         Bullet.prototype.Start = function () {
-            createjs.Sound.play("laser1");
+            var bulletSound = createjs.Sound.play("laser1");
+            bulletSound.volume = 0.75;
             this.Reset();
         };
         Bullet.prototype.Update = function () {

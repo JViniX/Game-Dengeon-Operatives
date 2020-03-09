@@ -12,7 +12,6 @@ module managers
             {
                 if(!object2.isColliding)
                     {
-                        console.log("Collision!");
                         object1.isColliding = true;
                         object2.isColliding = true;
                         return true;
@@ -44,7 +43,6 @@ module managers
             {
                 if(!object2.isColliding)
                 {
-                    console.log("Collision! - "+ object1.name+" : "+ object1.width + " - "+ object1.height);
                     object1.isColliding = true;
                     object2.isColliding = true;
                     return true;
