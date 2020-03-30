@@ -3,6 +3,7 @@ module objects
     export class Label extends createjs.Text
     {
         private _isCentered:boolean;
+        private _isDisappear:boolean;
         // constructor
         constructor(
             public labelString:string = "empty label", 
@@ -12,7 +13,7 @@ module objects
             x: number = 0, y: number = 0, public isCentered:boolean = false)
             {
                 super(labelString, fontSize + " " + fontFamily, fontColour);
-
+                this._isDisappear = false;
                 if(isCentered)
                 {
                     this._isCentered = true;
@@ -25,6 +26,36 @@ module objects
             }
 
         // methods
+        public Update(): void 
+        {
+            if(this._isDisappear && this.alpha > 0)
+            {    
+                if(createjs.Ticker.getTicks() % 10 == 0)
+                {
+                    this.alpha = this.alpha - 0.1;
+                }
+            }
+        }
+
+        public Disappear(): void
+        {
+            this._isDisappear = true;
+        }
+
+        private Show(): void
+        {
+            if(this.alpha == 0)
+            {
+                this._isDisappear = false;
+                this.alpha = 1.0;
+            }
+        }
+
+        public showAtScreen(newX: number, newY: number): void{
+            this.Show()
+            this.x = newX;
+            this.y = newY;
+        }
 
         public setText(newText:string)
         {

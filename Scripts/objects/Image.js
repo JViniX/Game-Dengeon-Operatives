@@ -39,6 +39,14 @@ var objects;
         Image.prototype._checkBounds = function () {
         };
         // PUBLIC METHODS
+        Image.prototype.leaveScreen = function () {
+            this.position.x = -200;
+            this.position.y = -200;
+        };
+        Image.prototype.showAtScreen = function (newX, newY) {
+            this.position.x = newX;
+            this.position.y = newY;
+        };
         Image.prototype.setImage = function (imagePath) {
             //this.image = new createjs.Bitmap(imagePath).image;
             var background;

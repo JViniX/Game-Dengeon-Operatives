@@ -31,6 +31,7 @@ var objects;
             _this.fontFamily = fontFamily;
             _this.fontColour = fontColour;
             _this.isCentered = isCentered;
+            _this._isDisappear = false;
             if (isCentered) {
                 _this._isCentered = true;
                 _this.regX = _this.getBounds().width * 0.5;
@@ -41,6 +42,27 @@ var objects;
             return _this;
         }
         // methods
+        Label.prototype.Update = function () {
+            if (this._isDisappear && this.alpha > 0) {
+                if (createjs.Ticker.getTicks() % 10 == 0) {
+                    this.alpha = this.alpha - 0.1;
+                }
+            }
+        };
+        Label.prototype.Disappear = function () {
+            this._isDisappear = true;
+        };
+        Label.prototype.Show = function () {
+            if (this.alpha == 0) {
+                this._isDisappear = false;
+                this.alpha = 1.0;
+            }
+        };
+        Label.prototype.showAtScreen = function (newX, newY) {
+            this.Show();
+            this.x = newX;
+            this.y = newY;
+        };
         Label.prototype.setText = function (newText) {
             this.text = newText; //.substring(0, 12);
             if (this._isCentered) {

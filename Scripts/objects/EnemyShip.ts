@@ -6,15 +6,16 @@ module objects
         private _verticalSpeed?:number;
         private _horizontalSpeed?:number;
         private _direction: objects.EnumDirections;
+        private _isDead:boolean;
 
         // PUBLIC PROPERTIES
         public life: number;
 
         // CONSTRUCTOR
-        constructor()
+        constructor(imagePath:Object, name:string)
         {
-            super(config.Game.ASSETS.getResult("enemyShip"), 0, 0, true);
-            
+            super(imagePath, 0, 0, true);
+            this.name = name;
             this._direction = Math.floor(util.Mathf.RandomRange(objects.EnumDirections.UP, objects.EnumDirections.LEFT));
             // this._direction = objects.EnumDirections.DOWN.valueOf();
             switch (this._direction){
@@ -70,9 +71,17 @@ module objects
                     this.position = Vector2.subtract(this.position, this.velocity);
                     break;
             }
+            //console.log(this.name + " - " + this.position);
         }
         
         // PUBLIC METHODS
+        public kill(): void{
+            this._isDead = true;
+            this.position.x = -200;
+            this.position.y = -200;
+        }
+
+
         public Start(): void 
         {
             // this.alpha = 0.5; // 50% transparent
@@ -82,12 +91,16 @@ module objects
         
         public Update(): void 
         {
-            this._move();
-            this._checkBounds();
+            if(!this._isDead) 
+            {
+                this._move();
+                this._checkBounds();
+            }
         }
         
         public Reset(): void 
         {       
+            this.isColliding = false;
             this._verticalSpeed = util.Mathf.RandomRange(2, 5);
             this._horizontalSpeed = util.Mathf.RandomRange(2, 5);           
             

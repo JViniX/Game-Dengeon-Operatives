@@ -17,8 +17,9 @@ var objects;
     var EnemyShip = /** @class */ (function (_super) {
         __extends(EnemyShip, _super);
         // CONSTRUCTOR
-        function EnemyShip() {
-            var _this = _super.call(this, config.Game.ASSETS.getResult("enemyShip"), 0, 0, true) || this;
+        function EnemyShip(imagePath, name) {
+            var _this = _super.call(this, imagePath, 0, 0, true) || this;
+            _this.name = name;
             _this._direction = Math.floor(util.Mathf.RandomRange(objects.EnumDirections.UP, objects.EnumDirections.LEFT));
             // this._direction = objects.EnumDirections.DOWN.valueOf();
             switch (_this._direction) {
@@ -67,18 +68,27 @@ var objects;
                     this.position = objects.Vector2.subtract(this.position, this.velocity);
                     break;
             }
+            //console.log(this.name + " - " + this.position);
         };
         // PUBLIC METHODS
+        EnemyShip.prototype.kill = function () {
+            this._isDead = true;
+            this.position.x = -200;
+            this.position.y = -200;
+        };
         EnemyShip.prototype.Start = function () {
             // this.alpha = 0.5; // 50% transparent
             this.life = 5;
             this.Reset();
         };
         EnemyShip.prototype.Update = function () {
-            this._move();
-            this._checkBounds();
+            if (!this._isDead) {
+                this._move();
+                this._checkBounds();
+            }
         };
         EnemyShip.prototype.Reset = function () {
+            this.isColliding = false;
             this._verticalSpeed = util.Mathf.RandomRange(2, 5);
             this._horizontalSpeed = util.Mathf.RandomRange(2, 5);
             var randomX = util.Mathf.RandomRange(0, config.Game.SCREEN_WIDTH);

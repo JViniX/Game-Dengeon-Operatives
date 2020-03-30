@@ -30,11 +30,15 @@ module objects
             {
                 this.isColliding = true;
                 //console.log("Player _checkBounds. Entrou " + this.x +" - " +this.y + " - "+ this.position.toString());
-            }
-           
+            }           
         }
 
         // PUBLIC METHODS
+        public gameover(): void{
+            this.position.x = -100;
+            this.position.y = -100;
+        }
+
         public Move(e: KeyboardEvent) {
 
             //console.log("e.keyCode: "+e.keyCode);

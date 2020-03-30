@@ -28,6 +28,9 @@ let Game = (function(){
         {id:"player", src:"./Assets/images/player.png"},
         {id:"bulletBlue", src:"./Assets/images/bulletBlue.png"},
         {id:"enemyShip", src:"./Assets/images/enemyShip.png"},
+        {id:"enemyShip3", src:"./Assets/images/ship3.png"},
+        {id:"haste-fire", src:"./Assets/images/haste-fire.png"},
+        {id:"haste-sky", src:"./Assets/images/haste-sky.png"},
 
         {id:"laser1", src:"./Assets/audio/laser1.wav"},
         {id:"explosion06", src:"./Assets/audio/explosion06.wav"},
@@ -73,8 +76,6 @@ let Game = (function(){
 
         currentScene.Update();
         
-
-
         stage.update();
     }
 

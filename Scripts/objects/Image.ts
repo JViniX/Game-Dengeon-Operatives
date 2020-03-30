@@ -26,6 +26,16 @@ module objects
         }
 
         // PUBLIC METHODS
+        public leaveScreen(): void{
+            this.position.x = -200;
+            this.position.y = -200;
+        }
+
+        public showAtScreen(newX: number, newY: number): void{
+            this.position.x = newX;
+            this.position.y = newY;
+        }
+
         public setImage(imagePath:Object):void
         {
             //this.image = new createjs.Bitmap(imagePath).image;

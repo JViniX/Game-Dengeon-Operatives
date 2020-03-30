@@ -44,6 +44,10 @@ var objects;
             }
         };
         // PUBLIC METHODS
+        Player.prototype.gameover = function () {
+            this.position.x = -100;
+            this.position.y = -100;
+        };
         Player.prototype.Move = function (e) {
             //console.log("e.keyCode: "+e.keyCode);
             var newDirection;
