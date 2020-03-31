@@ -53,13 +53,11 @@ var objects;
             this._isDisappear = true;
         };
         Label.prototype.Show = function () {
-            if (this.alpha == 0) {
-                this._isDisappear = false;
-                this.alpha = 1.0;
-            }
+            this._isDisappear = false;
+            this.alpha = 1.0;
         };
         Label.prototype.showAtScreen = function (newX, newY) {
-            this.Show();
+            //this.Show()
             this.x = newX;
             this.y = newY;
         };

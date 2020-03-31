@@ -40,7 +40,7 @@ module scenes
         private _enemysAmount: number = 6;
         private _enemiesLabel: objects.Label;
         
-        //private _sound = createjs.Sound.play("level1");
+        private _sound = createjs.Sound.play("level1");
 
         // PUBLIC PROPERTIES
 
@@ -53,6 +53,8 @@ module scenes
         }
 
         // PRIVATE METHODS
+
+        // Updates scores labes and statistics.
         private updateStats(): void
         {
             this._levelLabel.setText("Level: "+ this._level.toString());
@@ -60,6 +62,8 @@ module scenes
             this._scoreLabel.setText("Score: "+ this._scoreValue.toString()+"p");
             this._bulletsLabel.setText("Bullets: "+ this._bulletsAmount.toString());
             this._enemiesLabel.setText("Enemies: "+ this._enemyShips.length.toString());
+
+            //if the player's life is 0,  eneble reset button.
             if(this._lifeValue <= 0)
             {
                 this._gameOver = true;
@@ -69,6 +73,8 @@ module scenes
                 this.removeChild(this._player);
                 this.addChild(this._resetButton);
             }
+
+            //if there is no enemies, eneble next level button.
             if(this._enemyShips.length == 0)
             {
                 this._gameOver = true;
@@ -83,21 +89,20 @@ module scenes
         //initialize and instatiate
         public Start(): void 
         {
-            //this.sound = createjs.Sound.play("level1");
-            // this._sound.volume = 0.5;
-            // this._sound.loop = -1;
+            this._sound.volume = 0.5;
+            this._sound.loop = -1;
             
             this._resetButton = new objects.Button(config.Game.ASSETS.getResult("resetButton"), config.Game.SCREEN_WIDTH/2, 550, true);
             this._nextButton = new objects.Button(config.Game.ASSETS.getResult("nextButton"), config.Game.SCREEN_WIDTH/2, 550, true);
             
-            this._powerScore1 = new objects.Image(config.Game.ASSETS.getResult("haste-fire"), "block", 1000, 100, true);
+            this._powerScore1 = new objects.Image(config.Game.ASSETS.getResult("haste-fire"), "power-fire", 1000, 100, true);
             this._powerLabel1 = new objects.Label(" ", "24px", "Consolas", "#FFFFFF", 1000, 100, true);
 
-            this._powerScore2 = new objects.Image(config.Game.ASSETS.getResult("haste-fire"), "block", 100, 700, true);
+            this._powerScore2 = new objects.Image(config.Game.ASSETS.getResult("haste-fire"), "power-fire", 100, 700, true);
             this._powerLabel2 = new objects.Label(" ", "24px", "Consolas", "#FFFFFF", 100, 700, true);
 
-            this._powerLife = new objects.Image(config.Game.ASSETS.getResult("haste-sky"), "block", 1000, 700, true);
-            this._powerLabel3 = new objects.Label("+50%\nLife", "24px", "Consolas", "#FFFFFF", 1000, 700, true);
+            this._powerLife = new objects.Image(config.Game.ASSETS.getResult("haste-sky"), "power-life", 1000, 700, true);
+            this._powerLabel3 = new objects.Label(" ", "24px", "Consolas", "#FFFFFF", 1000, 700, true);
 
             this._gameOver = false;
             this._gameOverLabel = new objects.Label(" ", "80px", "Consolas", "#FFFFFF", config.Game.SCREEN_WIDTH/2, config.Game.SCREEN_HEIGHT/2, true);
@@ -124,6 +129,7 @@ module scenes
                 else this._enemyShips.push(new objects.EnemyShip(config.Game.ASSETS.getResult("enemyShip"), "e"+index));
             }
 
+            // creates the bullets array
             this._bullets = new Array<objects.Bullet>();
             this._arena = new objects.Image(config.Game.ASSETS.getResult("arena"), "arena", 0, 0, false);
             this._player = new objects.Player(config.Game.ASSETS.getResult("player"), "player", 600, 400, true);
@@ -143,11 +149,11 @@ module scenes
 
             if(managers.Collision.AABBCheck(this._powerScore1, this._player))
             {
-                let extraBullets = this._bulletsAmount + this._enemyShips.length + 5;
-                this._powerLabel1.setText("+"+extraBullets.toString()+" bullets");
-                this.addChild(this._powerLabel1);
+                let extraBullets1 = this._enemyShips.length + 5;
+                this._powerLabel1.setText("+"+extraBullets1.toString()+" bullets");
+                this._powerLabel1.Show();
                 this._powerLabel1.Disappear();
-                this._bulletsAmount = extraBullets;
+                this._bulletsAmount = extraBullets1;
 
                 this._powerScore1.leaveScreen();
                 this.removeChild(this._powerScore1);
@@ -155,11 +161,11 @@ module scenes
 
             if(managers.Collision.AABBCheck(this._powerScore2, this._player))
             {
-                let extraBullets = this._bulletsAmount + this._enemyShips.length + 5;
-                this._powerLabel1.setText("+"+extraBullets.toString()+" bullets");
-                this.addChild(this._powerLabel2);
+                let extraBullets2 = this._enemyShips.length + 5;
+                this._powerLabel2.setText("+"+extraBullets2.toString()+" bullets");
+                this._powerLabel2.Show();
                 this._powerLabel2.Disappear();
-                this._bulletsAmount = extraBullets;
+                this._bulletsAmount = this._bulletsAmount + extraBullets2;
 
                 this._powerScore2.leaveScreen();
                 this.removeChild(this._powerScore2);
@@ -167,10 +173,11 @@ module scenes
 
             if(managers.Collision.AABBCheck(this._powerLife, this._player))
             {
-                this.addChild(this._powerLabel3);
+                this._powerLabel3.setText("+50% Life");
+                this._powerLabel3.Show();
+                this._powerLabel3.Disappear();
                 this._powerLife.leaveScreen();
                 this.removeChild(this._powerLife);
-                this._powerLabel3.Disappear();
                 this._lifeValue = this._lifeValue + 50;
             }
                        
@@ -226,14 +233,17 @@ module scenes
         public Main(): void 
         {
             this.addChild(this._arena);
-            this.addChild(this._powerScore1);
-            this.addChild(this._powerScore2);
-            this.addChild(this._powerLife);
             this.addChild(this._lifeLabel);
             this.addChild(this._scoreLabel);
             this.addChild(this._bulletsLabel);
             this.addChild(this._levelLabel);
             this.addChild(this._enemiesLabel);
+            this.addChild(this._powerScore1);
+            this.addChild(this._powerScore2);
+            this.addChild(this._powerLife);
+            this.addChild(this._powerLabel1);
+            this.addChild(this._powerLabel2);
+            this.addChild(this._powerLabel3);
             
             this.addChild(this._player);
             this.addChild(this._block);
@@ -260,7 +270,7 @@ module scenes
             });
 
             this._resetButton.on("click", ()=>{
-                //this._sound.stop();
+                this._sound.stop();
                 config.Game.SCENE = scenes.State.START;
             });
 

@@ -42,17 +42,14 @@ module objects
             this._isDisappear = true;
         }
 
-        private Show(): void
+        public Show(): void
         {
-            if(this.alpha == 0)
-            {
                 this._isDisappear = false;
                 this.alpha = 1.0;
-            }
         }
 
         public showAtScreen(newX: number, newY: number): void{
-            this.Show()
+            //this.Show()
             this.x = newX;
             this.y = newY;
         }

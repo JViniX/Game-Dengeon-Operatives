@@ -49,7 +49,7 @@ module objects
                     newDirection = objects.EnumDirections.UP;
                     if(!this.isColliding || (this.direction != newDirection))
                     { 
-                        this.position.y = this.position.y - 10;
+                        this.position.y = this.position.y - 20;
                         this.isColliding = false;
                     }
                     this.rotation = 0;
@@ -58,7 +58,7 @@ module objects
                     newDirection = objects.EnumDirections.RIGHT;
                     if(!this.isColliding || (this.direction != newDirection)) 
                     {
-                        this.position.x = this.position.x + 10;
+                        this.position.x = this.position.x + 20;
                         this.isColliding = false;
                     }
                     this.rotation = 90;
@@ -67,7 +67,7 @@ module objects
                     newDirection = objects.EnumDirections.DOWN;
                     if(!this.isColliding || (this.direction != newDirection)) 
                     {
-                        this.position.y = this.position.y + 10;
+                        this.position.y = this.position.y + 20;
                         this.isColliding = false;
                     }
                     this.rotation = 180;
@@ -76,7 +76,7 @@ module objects
                     newDirection = objects.EnumDirections.LEFT;
                     if(!this.isColliding || (this.direction != newDirection)) 
                     {
-                        this.position.x = this.position.x - 10;
+                        this.position.x = this.position.x - 20;
                         this.isColliding = false;
                     }
                     this.rotation = -90;

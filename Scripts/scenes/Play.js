@@ -16,22 +16,24 @@ var scenes;
 (function (scenes) {
     var Play = /** @class */ (function (_super) {
         __extends(Play, _super);
-        //private _sound = createjs.Sound.play("level1");
         // PUBLIC PROPERTIES
         // CONSTRUCTOR
         function Play() {
             var _this = _super.call(this) || this;
             _this._enemysAmount = 6;
+            _this._sound = createjs.Sound.play("level1");
             _this.Start();
             return _this;
         }
         // PRIVATE METHODS
+        // Updates scores labes and statistics.
         Play.prototype.updateStats = function () {
             this._levelLabel.setText("Level: " + this._level.toString());
             this._lifeLabel.setText("Life: " + this._lifeValue.toString() + "%");
             this._scoreLabel.setText("Score: " + this._scoreValue.toString() + "p");
             this._bulletsLabel.setText("Bullets: " + this._bulletsAmount.toString());
             this._enemiesLabel.setText("Enemies: " + this._enemyShips.length.toString());
+            //if the player's life is 0,  eneble reset button.
             if (this._lifeValue <= 0) {
                 this._gameOver = true;
                 this.addChild(this._gameOverLabel);
@@ -40,6 +42,7 @@ var scenes;
                 this.removeChild(this._player);
                 this.addChild(this._resetButton);
             }
+            //if there is no enemies, eneble next level button.
             if (this._enemyShips.length == 0) {
                 this._gameOver = true;
                 this.addChild(this._gameOverLabel);
@@ -50,17 +53,16 @@ var scenes;
         // PUBLIC METHODS
         //initialize and instatiate
         Play.prototype.Start = function () {
-            //this.sound = createjs.Sound.play("level1");
-            // this._sound.volume = 0.5;
-            // this._sound.loop = -1;
+            this._sound.volume = 0.5;
+            this._sound.loop = -1;
             this._resetButton = new objects.Button(config.Game.ASSETS.getResult("resetButton"), config.Game.SCREEN_WIDTH / 2, 550, true);
             this._nextButton = new objects.Button(config.Game.ASSETS.getResult("nextButton"), config.Game.SCREEN_WIDTH / 2, 550, true);
-            this._powerScore1 = new objects.Image(config.Game.ASSETS.getResult("haste-fire"), "block", 1000, 100, true);
+            this._powerScore1 = new objects.Image(config.Game.ASSETS.getResult("haste-fire"), "power-fire", 1000, 100, true);
             this._powerLabel1 = new objects.Label(" ", "24px", "Consolas", "#FFFFFF", 1000, 100, true);
-            this._powerScore2 = new objects.Image(config.Game.ASSETS.getResult("haste-fire"), "block", 100, 700, true);
+            this._powerScore2 = new objects.Image(config.Game.ASSETS.getResult("haste-fire"), "power-fire", 100, 700, true);
             this._powerLabel2 = new objects.Label(" ", "24px", "Consolas", "#FFFFFF", 100, 700, true);
-            this._powerLife = new objects.Image(config.Game.ASSETS.getResult("haste-sky"), "block", 1000, 700, true);
-            this._powerLabel3 = new objects.Label("+50%\nLife", "24px", "Consolas", "#FFFFFF", 1000, 700, true);
+            this._powerLife = new objects.Image(config.Game.ASSETS.getResult("haste-sky"), "power-life", 1000, 700, true);
+            this._powerLabel3 = new objects.Label(" ", "24px", "Consolas", "#FFFFFF", 1000, 700, true);
             this._gameOver = false;
             this._gameOverLabel = new objects.Label(" ", "80px", "Consolas", "#FFFFFF", config.Game.SCREEN_WIDTH / 2, config.Game.SCREEN_HEIGHT / 2, true);
             this._level = 1;
@@ -81,6 +83,7 @@ var scenes;
                 else
                     this._enemyShips.push(new objects.EnemyShip(config.Game.ASSETS.getResult("enemyShip"), "e" + index));
             }
+            // creates the bullets array
             this._bullets = new Array();
             this._arena = new objects.Image(config.Game.ASSETS.getResult("arena"), "arena", 0, 0, false);
             this._player = new objects.Player(config.Game.ASSETS.getResult("player"), "player", 600, 400, true);
@@ -95,28 +98,29 @@ var scenes;
             this._player.Update();
             managers.Collision.AABBCheck(this._block, this._player);
             if (managers.Collision.AABBCheck(this._powerScore1, this._player)) {
-                var extraBullets = this._bulletsAmount + this._enemyShips.length + 5;
-                this._powerLabel1.setText("+" + extraBullets.toString() + " bullets");
-                this.addChild(this._powerLabel1);
+                var extraBullets1 = this._enemyShips.length + 5;
+                this._powerLabel1.setText("+" + extraBullets1.toString() + " bullets");
+                this._powerLabel1.Show();
                 this._powerLabel1.Disappear();
-                this._bulletsAmount = extraBullets;
+                this._bulletsAmount = extraBullets1;
                 this._powerScore1.leaveScreen();
                 this.removeChild(this._powerScore1);
             }
             if (managers.Collision.AABBCheck(this._powerScore2, this._player)) {
-                var extraBullets = this._bulletsAmount + this._enemyShips.length + 5;
-                this._powerLabel1.setText("+" + extraBullets.toString() + " bullets");
-                this.addChild(this._powerLabel2);
+                var extraBullets2 = this._enemyShips.length + 5;
+                this._powerLabel2.setText("+" + extraBullets2.toString() + " bullets");
+                this._powerLabel2.Show();
                 this._powerLabel2.Disappear();
-                this._bulletsAmount = extraBullets;
+                this._bulletsAmount = this._bulletsAmount + extraBullets2;
                 this._powerScore2.leaveScreen();
                 this.removeChild(this._powerScore2);
             }
             if (managers.Collision.AABBCheck(this._powerLife, this._player)) {
-                this.addChild(this._powerLabel3);
+                this._powerLabel3.setText("+50% Life");
+                this._powerLabel3.Show();
+                this._powerLabel3.Disappear();
                 this._powerLife.leaveScreen();
                 this.removeChild(this._powerLife);
-                this._powerLabel3.Disappear();
                 this._lifeValue = this._lifeValue + 50;
             }
             var i;
@@ -158,14 +162,17 @@ var scenes;
         Play.prototype.Main = function () {
             var _this = this;
             this.addChild(this._arena);
-            this.addChild(this._powerScore1);
-            this.addChild(this._powerScore2);
-            this.addChild(this._powerLife);
             this.addChild(this._lifeLabel);
             this.addChild(this._scoreLabel);
             this.addChild(this._bulletsLabel);
             this.addChild(this._levelLabel);
             this.addChild(this._enemiesLabel);
+            this.addChild(this._powerScore1);
+            this.addChild(this._powerScore2);
+            this.addChild(this._powerLife);
+            this.addChild(this._powerLabel1);
+            this.addChild(this._powerLabel2);
+            this.addChild(this._powerLabel3);
             this.addChild(this._player);
             this.addChild(this._block);
             for (var _i = 0, _a = this._enemyShips; _i < _a.length; _i++) {
@@ -186,7 +193,7 @@ var scenes;
                 }
             });
             this._resetButton.on("click", function () {
-                //this._sound.stop();
+                _this._sound.stop();
                 config.Game.SCENE = scenes.State.START;
             });
             this._nextButton.on("click", function () {

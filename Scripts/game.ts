@@ -31,6 +31,8 @@ let Game = (function(){
         {id:"enemyShip3", src:"./Assets/images/ship3.png"},
         {id:"haste-fire", src:"./Assets/images/haste-fire.png"},
         {id:"haste-sky", src:"./Assets/images/haste-sky.png"},
+        {id:"logo", src:"./Assets/images/brainus.jpg"},
+        {id:"black", src:"./Assets/images/black.png"},
 
         {id:"laser1", src:"./Assets/audio/laser1.wav"},
         {id:"explosion06", src:"./Assets/audio/explosion06.wav"},
