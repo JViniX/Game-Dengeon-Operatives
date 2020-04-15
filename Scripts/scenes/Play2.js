@@ -67,7 +67,7 @@ var scenes;
             this._powerLife = new objects.Image(config.Game.ASSETS.getResult("haste-sky"), "power-life", 300, 400, true);
             this._powerLabel3 = new objects.Label(" ", "24px", "Consolas", "#FFFFFF", 300, 400, true);
             this._gameOver = false;
-            this._gameOverLabel = new objects.Label(" ", "80px", "Consolas", "#FFFFFF", config.Game.SCREEN_WIDTH / 2, config.Game.SCREEN_HEIGHT / 2, true);
+            this._gameOverLabel = new objects.Label(" ", "40px", "Consolas", "#FFFFFF", config.Game.SCREEN_WIDTH / 2, config.Game.SCREEN_HEIGHT / 2, true);
             this._level = 2;
             this._levelLabel = new objects.Label("Level:", "36px", "Consolas", "#FFFFFF", 20, 20, false);
             this._lifeLabel = new objects.Label("Life:", "36px", "Consolas", "#FFFFFF", 20, 60, false);

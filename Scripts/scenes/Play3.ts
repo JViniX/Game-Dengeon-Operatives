@@ -112,7 +112,7 @@ module scenes
             this._powerLabel3 = new objects.Label(" ", "24px", "Consolas", "#FFFFFF", 300, 400, true);
 
             this._gameOver = false;
-            this._gameOverLabel = new objects.Label(" ", "80px", "Consolas", "#FFFFFF", config.Game.SCREEN_WIDTH/2, config.Game.SCREEN_HEIGHT/2, true);
+            this._gameOverLabel = new objects.Label(" ", "40px", "Consolas", "#FFFFFF", config.Game.SCREEN_WIDTH/2, config.Game.SCREEN_HEIGHT/2, true);
             
             this._enemyBossLife = 100;
             this._level = 3;
