@@ -69,7 +69,7 @@ var scenes;
             this._gameOver = false;
             this._gameOverLabel = new objects.Label(" ", "40px", "Consolas", "#FFFFFF", config.Game.SCREEN_WIDTH / 2, config.Game.SCREEN_HEIGHT / 2, true);
             this._level = 2;
-            config.Game.bulletsAmount += 5;
+            config.Game.bulletsAmount += 5; // gives extra bullets to the player
             this._levelLabel = new objects.Label("Level:", "36px", "Consolas", "#FFFFFF", 20, 20, false);
             this._lifeLabel = new objects.Label("Life:", "36px", "Consolas", "#FFFFFF", 20, 60, false);
             this._scoreLabel = new objects.Label("Score:", "36px", "Consolas", "#FFFFFF", 20, 100, false);
@@ -87,6 +87,7 @@ var scenes;
             // creates the bullets array
             this._bullets = new Array();
             this._arena = new objects.Image(config.Game.ASSETS.getResult("arena2"), "arena2", 0, 0, false);
+            // changes player and bullet image based on player selection
             if (config.Game.character == 1) {
                 this._player = new objects.Player(config.Game.ASSETS.getResult("player"), "player", 600, 400, true);
                 this._bulletImage = "bulletBlue";
@@ -104,11 +105,13 @@ var scenes;
             this._powerLabel2.Update();
             this._powerLabel3.Update();
             this._player.Update();
+            // blocks the player movement when in contact with these objects.
             managers.Collision.AABBCheck(this._block, this._player);
             managers.Collision.AABBCheck(this._powerStone1, this._player);
             managers.Collision.AABBCheck(this._powerStone2, this._player);
             managers.Collision.AABBCheck(this._powerStone3, this._player);
             managers.Collision.AABBCheck(this._powerStone4, this._player);
+            // gets power-up 1
             if (managers.Collision.AABBCheck(this._powerScore1, this._player)) {
                 var extraBullets1 = this._enemyShips.length + 5;
                 this._powerLabel1.setText("+" + extraBullets1.toString() + " bullets");
@@ -118,6 +121,7 @@ var scenes;
                 this._powerScore1.leaveScreen();
                 this.removeChild(this._powerScore1);
             }
+            // gets power-up 2
             if (managers.Collision.AABBCheck(this._powerScore2, this._player)) {
                 var extraBullets2 = this._enemyShips.length + 5;
                 this._powerLabel2.setText("+" + extraBullets2.toString() + " bullets");
@@ -127,6 +131,7 @@ var scenes;
                 this._powerScore2.leaveScreen();
                 this.removeChild(this._powerScore2);
             }
+            // gets power-up 3
             if (managers.Collision.AABBCheck(this._powerLife, this._player)) {
                 this._powerLabel3.setText("+50% Life");
                 this._powerLabel3.Show();
@@ -135,17 +140,16 @@ var scenes;
                 this.removeChild(this._powerLife);
                 config.Game.lifeValue = config.Game.lifeValue + 50;
             }
-            var i;
-            for (i = 0; i < this._bullets.length; i++) {
+            // checks bullets collisions
+            for (var i = 0; i < this._bullets.length; i++) {
                 this._bullets[i].Update();
+                //removes bullet when it hits something.
                 if (this._bullets[i].isColliding) {
-                    //removes bullet
                     this.removeChild(this._bullets[i]);
                     this._bullets.splice(i, 1);
                 }
                 else {
                     if (managers.Collision.AABBCheck(this._bullets[i], this._powerStone1)) {
-                        console.log("================= 1");
                         //removes bullet
                         this.removeChild(this._bullets[i]);
                         this._bullets.splice(i, 1);
@@ -157,7 +161,6 @@ var scenes;
                         soundExplosion.volume = 1.5;
                     }
                     if (managers.Collision.AABBCheck(this._bullets[i], this._powerStone2)) {
-                        console.log("================= 2");
                         //removes bullet
                         this.removeChild(this._bullets[i]);
                         this._bullets.splice(i, 1);
@@ -169,7 +172,6 @@ var scenes;
                         soundExplosion.volume = 1.5;
                     }
                     if (managers.Collision.AABBCheck(this._bullets[i], this._powerStone3)) {
-                        console.log("================= 3");
                         //removes bullet
                         this.removeChild(this._bullets[i]);
                         this._bullets.splice(i, 1);
@@ -181,7 +183,6 @@ var scenes;
                         soundExplosion.volume = 1.5;
                     }
                     if (managers.Collision.AABBCheck(this._bullets[i], this._powerStone4)) {
-                        console.log("================= 4");
                         //removes bullet
                         this.removeChild(this._bullets[i]);
                         this._bullets.splice(i, 1);
@@ -209,6 +210,7 @@ var scenes;
                     }
                 }
             }
+            // enemies' player impact.
             for (var j = 0; j < this._enemyShips.length; j++) {
                 this._enemyShips[j].Update();
                 if (managers.Collision.AABBCheck(this._player, this._enemyShips[j])) {
@@ -224,6 +226,7 @@ var scenes;
         };
         Play2.prototype.Main = function () {
             var _this = this;
+            // adds clild objects
             this.addChild(this._arena);
             this.addChild(this._lifeLabel);
             this.addChild(this._scoreLabel);

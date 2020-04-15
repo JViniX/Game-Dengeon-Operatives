@@ -137,6 +137,7 @@ module scenes
             this._bullets = new Array<objects.Bullet>();
             this._arena = new objects.Image(config.Game.ASSETS.getResult("arena"), "arena", 0, 0, false);
             
+            // changes player and bullet image based on player selection
             if(config.Game.character == 1)
             {
                 this._player = new objects.Player(config.Game.ASSETS.getResult("player"), "player", 600, 400, true);
@@ -159,12 +160,14 @@ module scenes
             this._powerLabel3.Update();
             this._player.Update();            
         
+            // blocks the player movement when in contact with these objects.
             managers.Collision.AABBCheck(this._block, this._player);
             managers.Collision.AABBCheck(this._powerStone1, this._player);
             managers.Collision.AABBCheck(this._powerStone2, this._player);
             managers.Collision.AABBCheck(this._powerStone3, this._player);
             managers.Collision.AABBCheck(this._powerStone4, this._player);
 
+            // gets power-up 1
             if(managers.Collision.AABBCheck(this._powerScore1, this._player))
             {
                 let extraBullets1 = this._enemyShips.length + 5;
@@ -177,6 +180,7 @@ module scenes
                 this.removeChild(this._powerScore1);
             }
 
+            // gets power-up 2
             if(managers.Collision.AABBCheck(this._powerScore2, this._player))
             {
                 let extraBullets2 = this._enemyShips.length + 5;
@@ -189,6 +193,7 @@ module scenes
                 this.removeChild(this._powerScore2);
             }
 
+            // gets power-up 3
             if(managers.Collision.AABBCheck(this._powerLife, this._player))
             {
                 this._powerLabel3.setText("+50% Life");
@@ -199,13 +204,14 @@ module scenes
                 config.Game.lifeValue = config.Game.lifeValue + 50;
             }
                        
-            let i;
-            for(i = 0; i < this._bullets.length; i++)
+            // checks bullets collisions
+            for(let i = 0; i < this._bullets.length; i++)
             {
                 this._bullets[i].Update();
+
+                //removes bullet when it hits something.
                 if (this._bullets[i].isColliding)
                 {
-                    //removes bullet
                     this.removeChild(this._bullets[i]);
                     this._bullets.splice(i, 1);
                 }
@@ -290,6 +296,7 @@ module scenes
                 }               
             }
             
+            // enemies' player impact.
             for(let j = 0; j < this._enemyShips.length; j++)
             {
                 this._enemyShips[j].Update();
@@ -310,6 +317,7 @@ module scenes
         
         public Main(): void 
         {
+            // adds clild objects
             this.addChild(this._arena);
             this.addChild(this._lifeLabel);
             this.addChild(this._scoreLabel);

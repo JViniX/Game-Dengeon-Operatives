@@ -68,17 +68,14 @@ var scenes;
             this._powerLabel3 = new objects.Label(" ", "24px", "Consolas", "#FFFFFF", 300, 400, true);
             this._gameOver = false;
             this._gameOverLabel = new objects.Label(" ", "40px", "Consolas", "#FFFFFF", config.Game.SCREEN_WIDTH / 2, config.Game.SCREEN_HEIGHT / 2, true);
-            config.Game.bulletsAmount += 5;
-            this._enemyBossLife = 100;
+            config.Game.bulletsAmount += 5; // gives extra bullets to the player
+            this._enemyBossLife = 100; // defines boss life
             this._level = 3;
             this._levelLabel = new objects.Label("Level:", "36px", "Consolas", "#FFFFFF", 20, 20, false);
             this._lifeLabel = new objects.Label("Life:", "36px", "Consolas", "#FFFFFF", 20, 60, false);
             this._lifeBossLabel = new objects.Label("Boss:", "36px", "Consolas", "#FFFFFF", 1000, 20, false);
             this._scoreLabel = new objects.Label("Score:", "36px", "Consolas", "#FFFFFF", 20, 100, false);
             this._bulletsLabel = new objects.Label("Bullets:", "36px", "Consolas", "#FFFFFF", 20, 140, false);
-            // config.Game.lifeValue = 100;
-            // config.Game.scoreValue = 0;
-            // config.Game.bulletsAmount = 10;
             this._enemiesLabel = new objects.Label("Enemies:", "36px", "Consolas", "#FFFFFF", 20, 180, false);
             // create the enemyShip array
             this._enemyShips = new Array(); // empty container
@@ -93,6 +90,7 @@ var scenes;
             // creates the bullets array
             this._bullets = new Array();
             this._arena = new objects.Image(config.Game.ASSETS.getResult("arena3"), "arena3", 0, 0, false);
+            // changes player and bullet image based on player selection
             if (config.Game.character == 1) {
                 this._player = new objects.Player(config.Game.ASSETS.getResult("player"), "player", 600, 400, true);
                 this._bulletImage = "bulletBlue";
@@ -146,11 +144,12 @@ var scenes;
                 this.removeChild(this._powerLife);
                 config.Game.lifeValue = config.Game.lifeValue + 50;
             }
-            // player gets boos hit 
+            // player gets boss hit 
             if (managers.Collision.AABBCheck(this._player, this._enemyBoss)) {
                 createjs.Sound.play("explosion06");
                 config.Game.lifeValue = config.Game.lifeValue - 20;
             }
+            // checks bullets collisions
             for (var i = 0; i < this._bullets.length; i++) {
                 this._bullets[i].Update();
                 if (this._bullets[i].isColliding) {
@@ -236,6 +235,7 @@ var scenes;
                     }
                 }
             }
+            // enemies' player impact.
             for (var j = 0; j < this._enemyShips.length; j++) {
                 this._enemyShips[j].Update();
                 if (managers.Collision.AABBCheck(this._player, this._enemyShips[j])) {
