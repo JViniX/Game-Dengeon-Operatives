@@ -209,6 +209,13 @@ module scenes
                 this.removeChild(this._powerLife);
                 config.Game.lifeValue = config.Game.lifeValue + 50;
             }
+
+            // player gets boos hit 
+            if(managers.Collision.AABBCheck(this._player, this._enemyBoss))
+            {
+                createjs.Sound.play("explosion06");
+                config.Game.lifeValue = config.Game.lifeValue - 20;  
+            }
                        
             for(let i = 0; i < this._bullets.length; i++)
             {
