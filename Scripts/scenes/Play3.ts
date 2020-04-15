@@ -84,7 +84,7 @@ module scenes
             {
                 this._gameOver = true;
                 this.addChild(this._gameOverLabel);
-                this._gameOverLabel.setText("You win!\nContratulations???");
+                this._gameOverLabel.setText("You win!\nCongratulations!!!");
                 this.addChild(this._resetButton);
             }
         }
@@ -216,6 +216,7 @@ module scenes
                 createjs.Sound.play("explosion06");
                 config.Game.lifeValue = config.Game.lifeValue - 20;  
             }
+
                        
             for(let i = 0; i < this._bullets.length; i++)
             {
