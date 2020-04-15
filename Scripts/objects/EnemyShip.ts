@@ -7,15 +7,17 @@ module objects
         private _horizontalSpeed?:number;
         private _direction: objects.EnumDirections;
         private _isDead:boolean;
-
+        private _isRandomDirection:boolean = false;
+        
         // PUBLIC PROPERTIES
-        public life: number;
+        
 
         // CONSTRUCTOR
-        constructor(imagePath:Object, name:string)
+        constructor(imagePath:Object, name:string, randomPosittion?: boolean)
         {
             super(imagePath, 0, 0, true);
             this.name = name;
+            this._isRandomDirection = randomPosittion;
             this._direction = Math.floor(util.Mathf.RandomRange(objects.EnumDirections.UP, objects.EnumDirections.LEFT));
             // this._direction = objects.EnumDirections.DOWN.valueOf();
             switch (this._direction){
@@ -44,10 +46,10 @@ module objects
 
         protected _checkBounds(): void 
         {
-            if((this.position.y >= config.Game.SCREEN_HEIGHT + this.height)||
-                (this.position.y <= 0 - this.height)||
-                (this.position.x >= config.Game.SCREEN_WIDTH + this.width)||
-                (this.position.x <= 0 - this.width))
+            if((this.position.y >= config.Game.SCREEN_HEIGHT + (this.height*2))||
+                (this.position.y <= 0 - (this.height*2))||
+                (this.position.x >= config.Game.SCREEN_WIDTH + (this.width*2)||
+                (this.position.x <= 0 - (this.width*2))))
             {
                 this.Reset();
             }
@@ -55,8 +57,6 @@ module objects
         
         private _move():void
         {
-            //this.position = Vector2.add(this.position, this.velocity);
-
             switch (this._direction){
                 case objects.EnumDirections.UP:
                     this.position = Vector2.subtract(this.position, this.velocity);
@@ -71,21 +71,19 @@ module objects
                     this.position = Vector2.subtract(this.position, this.velocity);
                     break;
             }
-            //console.log(this.name + " - " + this.position);
         }
         
         // PUBLIC METHODS
+
+        // when it's dead, moves to outside the canvas.
         public kill(): void{
             this._isDead = true;
             this.position.x = -200;
             this.position.y = -200;
         }
 
-
         public Start(): void 
         {
-            // this.alpha = 0.5; // 50% transparent
-            this.life = 5;
             this.Reset();
         }
         
@@ -104,11 +102,20 @@ module objects
             this._verticalSpeed = util.Mathf.RandomRange(2, 5);
             this._horizontalSpeed = util.Mathf.RandomRange(2, 5);           
             
+            // defines new direction.
+            let newDirection = 0;
+            if(this._isRandomDirection)
+            {
+                newDirection = Math.floor(util.Mathf.RandomRange(objects.EnumDirections.UP, objects.EnumDirections.LEFT));
+            }
+            else{ //if randomDirection is false, it just reverses de direction.
+                if(this._direction == objects.EnumDirections.UP) newDirection = objects.EnumDirections.DOWN;
+                if(this._direction == objects.EnumDirections.DOWN) newDirection = objects.EnumDirections.UP;
+                if(this._direction == objects.EnumDirections.LEFT) newDirection = objects.EnumDirections.RIGHT;
+                if(this._direction == objects.EnumDirections.RIGHT) newDirection = objects.EnumDirections.LEFT;
+            }
 
-            let randomX = util.Mathf.RandomRange(0, config.Game.SCREEN_WIDTH);
-            let randomY = util.Mathf.RandomRange(0, config.Game.SCREEN_HEIGHT);
-
-            let newDirection = Math.floor(util.Mathf.RandomRange(objects.EnumDirections.UP, objects.EnumDirections.LEFT));
+            // adjusts the bounds.
             if(this._direction != newDirection)
             {
                 this._direction = newDirection;
@@ -117,6 +124,9 @@ module objects
                 this.width = aux;
             }
 
+            // sets the position accordingly.
+            let randomX = util.Mathf.RandomRange(0, config.Game.SCREEN_WIDTH);
+            let randomY = util.Mathf.RandomRange(0, config.Game.SCREEN_HEIGHT);
             switch (this._direction){
                 
                 case objects.EnumDirections.UP:
@@ -127,7 +137,7 @@ module objects
                     
                 case objects.EnumDirections.RIGHT:
                     this.velocity = new Vector2(this._horizontalSpeed, 0);
-                    this.position = new Vector2(-randomX, randomY);
+                    this.position = new Vector2(0, randomY);
                     this.rotation = 90;
                     break;
 
@@ -139,7 +149,7 @@ module objects
 
                 case objects.EnumDirections.LEFT:
                     this.velocity = new Vector2(this._horizontalSpeed, 0);
-                    this.position = new Vector2(config.Game.SCREEN_WIDTH+this.width, randomY);
+                    this.position = new Vector2(config.Game.SCREEN_WIDTH, randomY);
                     this.rotation = -90;
                     break;
             }

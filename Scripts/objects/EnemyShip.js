@@ -16,10 +16,13 @@ var objects;
 (function (objects) {
     var EnemyShip = /** @class */ (function (_super) {
         __extends(EnemyShip, _super);
+        // PUBLIC PROPERTIES
         // CONSTRUCTOR
-        function EnemyShip(imagePath, name) {
+        function EnemyShip(imagePath, name, randomPosittion) {
             var _this = _super.call(this, imagePath, 0, 0, true) || this;
+            _this._isRandomDirection = false;
             _this.name = name;
+            _this._isRandomDirection = randomPosittion;
             _this._direction = Math.floor(util.Mathf.RandomRange(objects.EnumDirections.UP, objects.EnumDirections.LEFT));
             // this._direction = objects.EnumDirections.DOWN.valueOf();
             switch (_this._direction) {
@@ -45,15 +48,14 @@ var objects;
         }
         // PRIVATE METHODS
         EnemyShip.prototype._checkBounds = function () {
-            if ((this.position.y >= config.Game.SCREEN_HEIGHT + this.height) ||
-                (this.position.y <= 0 - this.height) ||
-                (this.position.x >= config.Game.SCREEN_WIDTH + this.width) ||
-                (this.position.x <= 0 - this.width)) {
+            if ((this.position.y >= config.Game.SCREEN_HEIGHT + (this.height * 2)) ||
+                (this.position.y <= 0 - (this.height * 2)) ||
+                (this.position.x >= config.Game.SCREEN_WIDTH + (this.width * 2) ||
+                    (this.position.x <= 0 - (this.width * 2)))) {
                 this.Reset();
             }
         };
         EnemyShip.prototype._move = function () {
-            //this.position = Vector2.add(this.position, this.velocity);
             switch (this._direction) {
                 case objects.EnumDirections.UP:
                     this.position = objects.Vector2.subtract(this.position, this.velocity);
@@ -68,17 +70,15 @@ var objects;
                     this.position = objects.Vector2.subtract(this.position, this.velocity);
                     break;
             }
-            //console.log(this.name + " - " + this.position);
         };
         // PUBLIC METHODS
+        // when it's dead, moves to outside the canvas.
         EnemyShip.prototype.kill = function () {
             this._isDead = true;
             this.position.x = -200;
             this.position.y = -200;
         };
         EnemyShip.prototype.Start = function () {
-            // this.alpha = 0.5; // 50% transparent
-            this.life = 5;
             this.Reset();
         };
         EnemyShip.prototype.Update = function () {
@@ -91,15 +91,31 @@ var objects;
             this.isColliding = false;
             this._verticalSpeed = util.Mathf.RandomRange(2, 5);
             this._horizontalSpeed = util.Mathf.RandomRange(2, 5);
-            var randomX = util.Mathf.RandomRange(0, config.Game.SCREEN_WIDTH);
-            var randomY = util.Mathf.RandomRange(0, config.Game.SCREEN_HEIGHT);
-            var newDirection = Math.floor(util.Mathf.RandomRange(objects.EnumDirections.UP, objects.EnumDirections.LEFT));
+            // defines new direction.
+            var newDirection = 0;
+            if (this._isRandomDirection) {
+                newDirection = Math.floor(util.Mathf.RandomRange(objects.EnumDirections.UP, objects.EnumDirections.LEFT));
+            }
+            else { //if randomDirection is false, it just reverses de direction.
+                if (this._direction == objects.EnumDirections.UP)
+                    newDirection = objects.EnumDirections.DOWN;
+                if (this._direction == objects.EnumDirections.DOWN)
+                    newDirection = objects.EnumDirections.UP;
+                if (this._direction == objects.EnumDirections.LEFT)
+                    newDirection = objects.EnumDirections.RIGHT;
+                if (this._direction == objects.EnumDirections.RIGHT)
+                    newDirection = objects.EnumDirections.LEFT;
+            }
+            // adjusts the bounds.
             if (this._direction != newDirection) {
                 this._direction = newDirection;
                 var aux = this.height;
                 this.height = this.width;
                 this.width = aux;
             }
+            // sets the position accordingly.
+            var randomX = util.Mathf.RandomRange(0, config.Game.SCREEN_WIDTH);
+            var randomY = util.Mathf.RandomRange(0, config.Game.SCREEN_HEIGHT);
             switch (this._direction) {
                 case objects.EnumDirections.UP:
                     this.velocity = new objects.Vector2(0, this._verticalSpeed);
@@ -108,7 +124,7 @@ var objects;
                     break;
                 case objects.EnumDirections.RIGHT:
                     this.velocity = new objects.Vector2(this._horizontalSpeed, 0);
-                    this.position = new objects.Vector2(-randomX, randomY);
+                    this.position = new objects.Vector2(0, randomY);
                     this.rotation = 90;
                     break;
                 case objects.EnumDirections.DOWN:
@@ -118,7 +134,7 @@ var objects;
                     break;
                 case objects.EnumDirections.LEFT:
                     this.velocity = new objects.Vector2(this._horizontalSpeed, 0);
-                    this.position = new objects.Vector2(config.Game.SCREEN_WIDTH + this.width, randomY);
+                    this.position = new objects.Vector2(config.Game.SCREEN_WIDTH, randomY);
                     this.rotation = -90;
                     break;
             }

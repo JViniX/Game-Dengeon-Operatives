@@ -12,14 +12,14 @@ module managers
             {
                 if(!object2.isColliding)
                     {
-                        object1.isColliding = true;
+                        // object1.isColliding = true;
                         object2.isColliding = true;
                         return true;
                     }
             }
             // else
             // {
-            //     object2.isColliding = false;
+            //     object1.isColliding = false;
             // }
             return false;
         }
@@ -43,7 +43,7 @@ module managers
             {
                 if(!object2.isColliding)
                 {
-                    object1.isColliding = true;
+                    // object1.isColliding = true;
                     object2.isColliding = true;
                     return true;
                 }
@@ -51,7 +51,7 @@ module managers
             }
             // else
             // {
-            //     object2.isColliding = false;
+            //     object1.isColliding = false;
             // }
             return false;
         }

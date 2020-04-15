@@ -10,14 +10,14 @@ var managers;
             var radii = object1.halfHeight + object2.halfHeight;
             if (objects.Vector2.sqrDistance(object1.position, object2.position) < (radii * radii)) {
                 if (!object2.isColliding) {
-                    object1.isColliding = true;
+                    // object1.isColliding = true;
                     object2.isColliding = true;
                     return true;
                 }
             }
             // else
             // {
-            //     object2.isColliding = false;
+            //     object1.isColliding = false;
             // }
             return false;
         };
@@ -34,14 +34,14 @@ var managers;
                 object1TopLeft.y < object2TopLeft.y + object2.height &&
                 object1TopLeft.y + object1.height > object2TopLeft.y) {
                 if (!object2.isColliding) {
-                    object1.isColliding = true;
+                    // object1.isColliding = true;
                     object2.isColliding = true;
                     return true;
                 }
             }
             // else
             // {
-            //     object2.isColliding = false;
+            //     object1.isColliding = false;
             // }
             return false;
         };

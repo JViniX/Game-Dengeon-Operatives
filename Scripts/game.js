@@ -20,19 +20,24 @@ var Game = (function () {
         { id: "island", src: "./Assets/images/island.png" },
         { id: "plane", src: "./Assets/images/plane.png" },
         { id: "mine", src: "./Assets/images/mine.png" },
-        { id: "arena", src: "./Assets/images/arena.png" },
+        { id: "arena", src: "./Assets/images/arena.jpg" },
         { id: "player", src: "./Assets/images/player.png" },
+        { id: "player2", src: "./Assets/images/player2.png" },
         { id: "bulletBlue", src: "./Assets/images/bulletBlue.png" },
+        { id: "bullet", src: "./Assets/images/bullet.png" },
         { id: "enemyShip", src: "./Assets/images/enemyShip.png" },
         { id: "enemyShip3", src: "./Assets/images/ship3.png" },
         { id: "haste-fire", src: "./Assets/images/haste-fire.png" },
         { id: "haste-sky", src: "./Assets/images/haste-sky.png" },
         { id: "logo", src: "./Assets/images/brainus.jpg" },
         { id: "black", src: "./Assets/images/black.png" },
+        { id: "stone", src: "./Assets/images/Stone.png" },
+        { id: "bossvehicle", src: "./Assets/images/Boss-vehicle.png" },
         { id: "laser1", src: "./Assets/audio/laser1.wav" },
         { id: "explosion06", src: "./Assets/audio/explosion06.wav" },
-        { id: "level1", src: "./Assets/audio/level1.mp3" },
-        { id: "opening", src: "./Assets/audio/opening.mp3" }
+        { id: "level1", src: "./Assets/audio/level1.ogg" },
+        { id: "level2", src: "./Assets/audio/level2.ogg" },
+        { id: "level3", src: "./Assets/audio/level3.ogg" }
     ];
     function Preload() {
         assets = new createjs.LoadQueue(); // asset container
@@ -83,8 +88,16 @@ var Game = (function () {
                 currentScene = new scenes.Start();
                 break;
             case scenes.State.PLAY:
-                console.log("switch to Play Scene");
+                console.log("switch to Play Scene 1");
                 currentScene = new scenes.Play();
+                break;
+            case scenes.State.PLAY2:
+                console.log("switch to Play Scene 2");
+                currentScene = new scenes.Play2();
+                break;
+            case scenes.State.PLAY3:
+                console.log("switch to Play Scene 3");
+                currentScene = new scenes.Play3();
                 break;
             case scenes.State.END:
                 console.log("switch to End Scene");
