@@ -259,6 +259,7 @@ var scenes;
                 config.Game.SCENE = scenes.State.START;
             });
             this._nextButton.on("click", function () {
+                _this._sound.stop();
                 config.Game.SCENE = scenes.State.PLAY2;
             });
         };

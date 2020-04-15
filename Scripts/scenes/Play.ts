@@ -357,6 +357,7 @@ module scenes
             });
 
             this._nextButton.on("click", ()=>{
+                this._sound.stop();
                 config.Game.SCENE = scenes.State.PLAY2;
             });
         }

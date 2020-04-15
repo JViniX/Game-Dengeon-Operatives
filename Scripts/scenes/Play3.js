@@ -21,7 +21,7 @@ var scenes;
         function Play3() {
             var _this = _super.call(this) || this;
             _this._enemysAmount = 12;
-            _this._sound = createjs.Sound.play("level1");
+            _this._sound = createjs.Sound.play("level3");
             _this.Start();
             return _this;
         }
@@ -47,7 +47,7 @@ var scenes;
             if (this._enemyShips.length == 0 && this._enemyBossLife == 0) {
                 this._gameOver = true;
                 this.addChild(this._gameOverLabel);
-                this._gameOverLabel.setText("You win!\nContratulations???");
+                this._gameOverLabel.setText("You win!\nCongratulations!!!");
                 this.addChild(this._resetButton);
             }
         };
@@ -91,7 +91,7 @@ var scenes;
             }
             // creates the bullets array
             this._bullets = new Array();
-            this._arena = new objects.Image(config.Game.ASSETS.getResult("arena"), "arena", 0, 0, false);
+            this._arena = new objects.Image(config.Game.ASSETS.getResult("arena2"), "arena3", 0, 0, false);
             if (config.Game.character == 1) {
                 this._player = new objects.Player(config.Game.ASSETS.getResult("player"), "player", 600, 400, true);
                 this._bulletImage = "bulletBlue";
@@ -144,6 +144,11 @@ var scenes;
                 this._powerLife.leaveScreen();
                 this.removeChild(this._powerLife);
                 config.Game.lifeValue = config.Game.lifeValue + 50;
+            }
+            // player gets boos hit 
+            if (managers.Collision.AABBCheck(this._player, this._enemyBoss)) {
+                createjs.Sound.play("explosion06");
+                config.Game.lifeValue = config.Game.lifeValue - 20;
             }
             for (var i = 0; i < this._bullets.length; i++) {
                 this._bullets[i].Update();

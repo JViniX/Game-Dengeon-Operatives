@@ -42,7 +42,7 @@ module scenes
         private _enemysAmount: number = 12;
         private _enemiesLabel: objects.Label;
         
-        private _sound = createjs.Sound.play("level1");
+        private _sound = createjs.Sound.play("level2");
 
         // PUBLIC PROPERTIES
 
@@ -131,7 +131,7 @@ module scenes
 
             // creates the bullets array
             this._bullets = new Array<objects.Bullet>();
-            this._arena = new objects.Image(config.Game.ASSETS.getResult("arena"), "arena", 0, 0, false);
+            this._arena = new objects.Image(config.Game.ASSETS.getResult("arena2"), "arena2", 0, 0, false);
 
             if(config.Game.character == 1)
             {
@@ -358,6 +358,7 @@ module scenes
             });
 
             this._nextButton.on("click", ()=>{
+                this._sound.stop();
                 config.Game.SCENE = scenes.State.PLAY3;
             });
         }

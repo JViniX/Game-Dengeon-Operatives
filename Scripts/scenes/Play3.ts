@@ -43,7 +43,7 @@ module scenes
 
         private _resetButton: objects.Button;
         
-        private _sound = createjs.Sound.play("level1");
+        private _sound = createjs.Sound.play("level3");
 
         // PUBLIC PROPERTIES
 
@@ -140,7 +140,7 @@ module scenes
 
             // creates the bullets array
             this._bullets = new Array<objects.Bullet>();
-            this._arena = new objects.Image(config.Game.ASSETS.getResult("arena"), "arena", 0, 0, false);
+            this._arena = new objects.Image(config.Game.ASSETS.getResult("arena2"), "arena3", 0, 0, false);
 
             if(config.Game.character == 1)
             {
