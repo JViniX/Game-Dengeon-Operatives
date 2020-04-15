@@ -18,7 +18,7 @@ var Game = (function () {
         { id: "arena2", src: "./Assets/images/arena2.jpeg" },
         { id: "arena3", src: "./Assets/images/arena3.jpeg" },
         { id: "player", src: "./Assets/images/player.png" },
-        { id: "player2", src: "./Assets/images/player2.png" },
+        { id: "player2", src: "./Assets/images/player2nd.png" },
         { id: "bulletBlue", src: "./Assets/images/bulletBlue.png" },
         { id: "bullet", src: "./Assets/images/bullet.png" },
         { id: "mine", src: "./Assets/images/mine.png" },
