@@ -164,6 +164,10 @@ var scenes;
                         //removes bullet
                         this.removeChild(this._bullets[i]);
                         this._bullets.splice(i, 1);
+                        // sound and score
+                        var soundExplosion = createjs.Sound.play("explosion06");
+                        soundExplosion.volume = 1.5;
+                        config.Game.scoreValue = config.Game.scoreValue + 10;
                         this._enemyBossLife -= 5;
                         if (this._enemyBossLife == 0) {
                             // removes enemy
