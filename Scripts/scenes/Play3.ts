@@ -114,6 +114,7 @@ module scenes
             this._gameOver = false;
             this._gameOverLabel = new objects.Label(" ", "40px", "Consolas", "#FFFFFF", config.Game.SCREEN_WIDTH/2, config.Game.SCREEN_HEIGHT/2, true);
             
+            config.Game.bulletsAmount += 5;
             this._enemyBossLife = 100;
             this._level = 3;
             this._levelLabel = new objects.Label("Level:", "36px", "Consolas", "#FFFFFF", 20, 20, false);
